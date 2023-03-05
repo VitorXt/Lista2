@@ -1,5 +1,6 @@
 using Lista2;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 List<Tarefa> listaTarefasPendentes = new List<Tarefa>();
 
@@ -111,12 +112,65 @@ void RemoverTarefa()
 
 }
 
-void ImprimirTarefasPendentes()
-{
-    Console.Write("Tarefas na lista: ");
+void ImprimirTarefasPendentes(){
+
+    Console.WriteLine("Selecione uma opção de ordenação:");
+    Console.WriteLine("a) Ordem alfabética");
+    Console.WriteLine("b) Ordem crescente pelo esforço"); 
+    Console.WriteLine("c) Ordem decrescente pelo esforço");
+    string opcao = Console.ReadLine();
+    var tarefasListaPendente = listaTarefasPendentes.Where(t => t.Finalizado == false);
+
+    switch (opcao){
+        case "a":
+            tarefasListaPendente = tarefasListaPendente.OrderBy(t => t.Nome);
+            break;
+        case "b":
+            tarefasListaPendente = tarefasListaPendente.OrderBy(t => t.Esforco);
+            break;
+        case "c":
+            tarefasListaPendente = tarefasListaPendente.OrderByDescending(t => t.Esforco);
+            break;
+        default:
+            Console.WriteLine("Opção inválida.");
+            return;
+    }
+
+    Console.Write("Tarefas pendentes na lista: ");
+    foreach (var tarefa in tarefasListaPendente){
+        Console.WriteLine($"- {tarefa.Nome} (esforço: {tarefa.Esforco})");
+    }
+
 }
 
-void ImprimirTarefasFinalizadas()
-{
+void ImprimirTarefasFinalizadas(){
+    Console.WriteLine("Selecione uma opção de ordenação:");
+    Console.WriteLine("a) Ordem alfabética");
+    Console.WriteLine("b) Ordem crescente pelo esforço");
+    Console.WriteLine("c) Ordem decrescente pelo esforço");
+    string opcao = Console.ReadLine();
+    var tarefasListaConcluida = listaTarefasPendentes.Where(t => t.Finalizado == true);
+
+    switch (opcao)
+    {
+        case "a":
+            tarefasListaConcluida = tarefasListaConcluida.OrderBy(t => t.Nome);
+            break;
+        case "b":
+            tarefasListaConcluida = tarefasListaConcluida.OrderBy(t => t.Esforco);
+            break;
+        case "c":
+            tarefasListaConcluida = tarefasListaConcluida.OrderByDescending(t => t.Esforco);
+            break;
+        default:
+            Console.WriteLine("Opção inválida.");
+            return;
+    }
+
+    Console.Write("Tarefas concluídas na lista: ");
+    foreach (var tarefa in tarefasListaConcluida)
+    {
+        Console.WriteLine($"- {tarefa.Nome} (esforço: {tarefa.Esforco})");
+    }
 
 }
